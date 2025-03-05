@@ -176,7 +176,7 @@ int ACE_TMAIN (int argc, ACE_TCHAR *argv[]) {
 
 // urk - ugly hardcoded schedule
 #define NSEC_PER_SEC 1000000000L
-#define EARLY_OFFSET_NS  100000L
+#define EARLY_OFFSET_NS  200000L
 #define INTERVAL_NS      500000L
 
     StockQuoter::Quote spy_quote;

@@ -50,7 +50,8 @@ void QuoteDataReaderListenerImpl::on_data_available(DDS::DataReader_ptr reader)
              << "         (act_rx_time) = " << act_rx_time << endl
              << "               (delay) = " << (act_rx_time - quote.target_time) << endl
              << "       sched_wake_time = " << quote.sched_wake_time  << endl
-             << "       act_wake_time   = " << quote.act_wake_time << endl;
+             << "       act_wake_time   = " << quote.act_wake_time << endl
+             << "               (delay) = " << (act_rx_time - quote.act_wake_time) << endl;
         cout << "SampleInfo.sample_rank        = " << si.sample_rank << endl;
         cout << "SampleInfo.instance_handle    = " << hex << si.instance_handle << endl;
         cout << "SampleInfo.publication_handle = " << hex << si.publication_handle << endl;
