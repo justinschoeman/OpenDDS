@@ -194,7 +194,7 @@ int ACE_TMAIN (int argc, ACE_TCHAR *argv[]) {
         break;
       }
       clock_gettime(CLOCK_REALTIME, &now);
-      unsigned long act_wake_time = now.tv_sec * NSEC_PER_SEC;
+      unsigned long act_wake_time = now.tv_sec * NSEC_PER_SEC + now.tv_nsec;
       spy_quote.target_time = target_time;
       spy_quote.sched_wake_time = sched_wake_time;
       spy_quote.act_wake_time = act_wake_time;
@@ -202,7 +202,7 @@ int ACE_TMAIN (int argc, ACE_TCHAR *argv[]) {
       if (ret != DDS::RETCODE_OK) {
         ACE_ERROR ((LM_ERROR, ACE_TEXT("(%P|%t) ERROR: SPY write returned %d.\n"), ret));
       }
-      cout << std::dec << "Publishing SPY Quote: " << target_time << " delay: " << act_wake_time << endl; //- sched_wake_time << endl;
+      cout << std::dec << "Publishing SPY Quote: " << target_time << " delay: " << (act_wake_time - sched_wake_time) << endl;
       target_time += INTERVAL_NS;
       sched_wake_time += INTERVAL_NS;
     }
