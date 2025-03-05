@@ -186,7 +186,7 @@ int ACE_TMAIN (int argc, ACE_TCHAR *argv[]) {
     unsigned long sched_wake_time = target_time - EARLY_OFFSET_NS;
 
     ACE_Time_Value quarterSecond( 0, 250000 );
-    for ( int i = 0; i < 20; ++i ) {
+    for ( int i = 0; i < 100000; ++i ) {
       now.tv_sec = sched_wake_time / NSEC_PER_SEC;
       now.tv_nsec = sched_wake_time % NSEC_PER_SEC;
       clock_gettime(CLOCK_REALTIME, &now);
