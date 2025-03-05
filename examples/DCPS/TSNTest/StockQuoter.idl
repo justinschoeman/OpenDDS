@@ -11,7 +11,7 @@ module StockQuoter {
 
   @topic
   struct Quote {
-    //@key 
+    @key long id;
     TimeT target_time;
     TimeT sched_wake_time;
     TimeT act_wake_time;

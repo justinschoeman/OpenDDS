@@ -158,7 +158,7 @@ int ACE_TMAIN (int argc, ACE_TCHAR *argv[]) {
     DDS::InstanceHandle_t exchange_handle = exchange_evt_dw->register_instance(ex_evt);
 
     StockQuoter::Quote spy;
-    //spy.ticker = CORBA::string_dup("SPY");
+    spy.id = 0; // key?
     DDS::InstanceHandle_t spy_handle = quote_dw->register_instance(spy);
 
     // Publish...
