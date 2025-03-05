@@ -174,8 +174,13 @@ int ACE_TMAIN (int argc, ACE_TCHAR *argv[]) {
       ACE_ERROR ((LM_ERROR, ACE_TEXT("(%P|%t) ERROR: OPEN write returned %d.\n"), ret));
     }
 
+// urk - ugly hardcoded schedule
+#define NSEC_PER_SEC 1000000000L
+
     StockQuoter::Quote spy_quote;
-    spy_quote.target_time = 0;
+    struct timespec now;
+    clock_gettime(CLOCK_REALTIME, &now);
+    spy_quote.target_time = now.tv_sec * NSEC_PER_SEC; // FIXME - ASSUMES TSN WINDOW IS ALIGNED WITH WHOLE SECONDS!!!
     spy_quote.sched_wake_time = 0;
     spy_quote.act_wake_time = 0;
 
