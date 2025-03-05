@@ -176,16 +176,21 @@ int ACE_TMAIN (int argc, ACE_TCHAR *argv[]) {
 
 // urk - ugly hardcoded schedule
 #define NSEC_PER_SEC 1000000000L
+#define EARLY_OFFSET_NS 100000L
+#define INTERVAL_NS 500000L
 
     StockQuoter::Quote spy_quote;
     struct timespec now;
     clock_gettime(CLOCK_REALTIME, &now);
     unsigned long target_time = now.tv_sec * NSEC_PER_SEC; // FIXME - ASSUMES TSN WINDOW IS ALIGNED WITH WHOLE SECONDS!!!
-    unsigned long sched_wake_time = 0;
-    unsigned long act_wake_time = 0;
+    unsigned long sched_wake_time = target_time - EARLY_OFFSET_NS;
 
     ACE_Time_Value quarterSecond( 0, 250000 );
     for ( int i = 0; i < 20; ++i ) {
+      now.tv_sec = sched_wake_time / NSEC_PER_SEC;
+      now.tv_nsec = sched_wake_time % NSEC_PER_SEC;
+      clock_gettime(CLOCK_REALTIME, &now);
+      unsigned long act_wake_time = now.tv_sec * NSEC_PER_SEC;
       spy_quote.target_time = target_time;
       spy_quote.sched_wake_time = sched_wake_time;
       spy_quote.act_wake_time = act_wake_time;
@@ -194,8 +199,8 @@ int ACE_TMAIN (int argc, ACE_TCHAR *argv[]) {
         ACE_ERROR ((LM_ERROR, ACE_TEXT("(%P|%t) ERROR: SPY write returned %d.\n"), ret));
       }
       cout << "Publishing SPY Quote: " << target_time << endl;
-
-      ACE_OS::sleep( quarterSecond );
+      target_time += INTERVAL_NS;
+      sched_wake_time += INTERVAL_NS;
     }
 
     StockQuoter::ExchangeEvent closed;
