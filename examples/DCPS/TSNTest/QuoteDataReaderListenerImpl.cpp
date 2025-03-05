@@ -37,10 +37,18 @@ void QuoteDataReaderListenerImpl::on_data_available(DDS::DataReader_ptr reader)
       DDS::SampleInfo si ;
       DDS::ReturnCode_t status = quote_dr->take_next_sample(quote, si) ;
 
+#define NSEC_PER_SEC 1000000000L
+      
+      struct timespec now;
+      clock_gettime(CLOCK_REALTIME, &now);
+      unsigned long act_rx_time = now.tv_sec * NSEC_PER_SEC + now.tv_nsec;
+
       if (status == DDS::RETCODE_OK && si.valid_data) {
         ++count;
         cout << std::dec 
              << "Quote: target_time     = " << quote.target_time    << endl
+             << "         (act_rx_time) = " << act_rx_time << endl
+             << "               (delay) = " << (act_rx_time - quote.target_time) << endl
              << "       sched_wake_time = " << quote.sched_wake_time  << endl
              << "       act_wake_time   = " << quote.act_wake_time << endl;
         cout << "SampleInfo.sample_rank        = " << si.sample_rank << endl;
