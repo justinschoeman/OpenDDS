@@ -174,13 +174,13 @@ int ACE_TMAIN (int argc, ACE_TCHAR *argv[]) {
       ACE_ERROR ((LM_ERROR, ACE_TEXT("(%P|%t) ERROR: OPEN write returned %d.\n"), ret));
     }
 
+    StockQuoter::Quote spy_quote;
+    spy_quote.target_time = 0;
+    spy_quote.sched_wake_time = 0;
+    spy_quote.act_wake_time = 0;
+
     ACE_Time_Value quarterSecond( 0, 250000 );
     for ( int i = 0; i < 20; ++i ) {
-      StockQuoter::Quote spy_quote;
-      spy_quote.target_time = 0;
-      spy_quote.sched_wake_time = 0;
-      spy_quote.act_wake_time = 0;
-
       cout << "Publishing SPY Quote: " << spy_quote.target_time << endl;
       ret = quote_dw->write(spy_quote, spy_handle);
       if (ret != DDS::RETCODE_OK) {
