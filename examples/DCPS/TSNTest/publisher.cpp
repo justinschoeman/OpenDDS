@@ -180,17 +180,20 @@ int ACE_TMAIN (int argc, ACE_TCHAR *argv[]) {
     StockQuoter::Quote spy_quote;
     struct timespec now;
     clock_gettime(CLOCK_REALTIME, &now);
-    spy_quote.target_time = now.tv_sec * NSEC_PER_SEC; // FIXME - ASSUMES TSN WINDOW IS ALIGNED WITH WHOLE SECONDS!!!
-    spy_quote.sched_wake_time = 0;
-    spy_quote.act_wake_time = 0;
+    unsigned long target_time = now.tv_sec * NSEC_PER_SEC; // FIXME - ASSUMES TSN WINDOW IS ALIGNED WITH WHOLE SECONDS!!!
+    unsigned long sched_wake_time = 0;
+    unsigned long act_wake_time = 0;
 
     ACE_Time_Value quarterSecond( 0, 250000 );
     for ( int i = 0; i < 20; ++i ) {
-      cout << "Publishing SPY Quote: " << spy_quote.target_time << endl;
+      spy_quote.target_time = target_time;
+      spy_quote.sched_wake_time = sched_wake_time;
+      spy_quote.act_wake_time = act_wake_time;
       ret = quote_dw->write(spy_quote, spy_handle);
       if (ret != DDS::RETCODE_OK) {
         ACE_ERROR ((LM_ERROR, ACE_TEXT("(%P|%t) ERROR: SPY write returned %d.\n"), ret));
       }
+      cout << "Publishing SPY Quote: " << target_time << endl;
 
       ACE_OS::sleep( quarterSecond );
     }
