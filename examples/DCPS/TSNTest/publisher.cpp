@@ -202,7 +202,7 @@ int ACE_TMAIN (int argc, ACE_TCHAR *argv[]) {
       if (ret != DDS::RETCODE_OK) {
         ACE_ERROR ((LM_ERROR, ACE_TEXT("(%P|%t) ERROR: SPY write returned %d.\n"), ret));
       }
-      cout << "Publishing SPY Quote: " << target_time << " deay: " << act_wake_time - sched_wake_time << endl;
+      cout << std::dec << "Publishing SPY Quote: " << target_time << " delay: " << act_wake_time << endl; //- sched_wake_time << endl;
       target_time += INTERVAL_NS;
       sched_wake_time += INTERVAL_NS;
     }

@@ -39,7 +39,8 @@ void QuoteDataReaderListenerImpl::on_data_available(DDS::DataReader_ptr reader)
 
       if (status == DDS::RETCODE_OK && si.valid_data) {
         ++count;
-        cout << "Quote: target_time     = " << (unsigned long long)quote.target_time    << endl
+        cout << std::dec 
+             << "Quote: target_time     = " << quote.target_time    << endl
              << "       sched_wake_time = " << quote.sched_wake_time  << endl
              << "       act_wake_time   = " << quote.act_wake_time << endl;
         cout << "SampleInfo.sample_rank        = " << si.sample_rank << endl;
