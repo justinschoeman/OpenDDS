@@ -1,0 +1,30 @@
+// *******************************************************************
+//
+// (c) Copyright 2006, Object Computing, Inc.
+// All Rights Reserved.
+//
+// *******************************************************************
+
+module StockQuoter {
+
+  typedef unsigned long long TimeT;
+
+  @topic
+  struct Quote {
+    //@key 
+    TimeT target_time;
+    TimeT sched_wake_time;
+    TimeT act_wake_time;
+  };
+
+  enum ExchangeEventType { TRADING_OPENED,
+                           TRADING_CLOSED,
+                           TRADING_SUSPENDED,
+                           TRADING_RESUMED };
+  @topic
+  struct ExchangeEvent {
+    @key string exchange;
+    ExchangeEventType event;
+    TimeT timestamp;
+  };
+};
