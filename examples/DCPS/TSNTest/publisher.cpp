@@ -89,6 +89,15 @@ int ACE_TMAIN (int argc, ACE_TCHAR *argv[]) {
     DDS::TopicQos default_topic_qos;
     participant->get_default_topic_qos(default_topic_qos);
 
+    default_topic_qos.reliability.kind = DDS::BEST_EFFORT_RELIABILITY_QOS;
+    default_topic_qos.history.kind = DDS::KEEP_LAST_HISTORY_QOS;
+    default_topic_qos.history.depth = 1;
+    default_topic_qos.durability.kind = DDS::VOLATILE_DURABILITY_QOS;
+    default_topic_qos.transport_priority.value = 32; // real time interactive
+    default_topic_qos.latency_budget.duration.sec = 0;
+    default_topic_qos.latency_budget.duration.nanosec = 0;
+    
+
     // Create a topic for the Quote type...
     DDS::Topic_var quote_topic =
       participant->create_topic (QUOTER_QUOTE_TOPIC,
