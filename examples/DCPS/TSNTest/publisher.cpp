@@ -127,6 +127,14 @@ int ACE_TMAIN (int argc, ACE_TCHAR *argv[]) {
     DDS::DataWriterQos dw_default_qos;
     pub->get_default_datawriter_qos (dw_default_qos);
 
+    dw_default_qos.reliability.kind = DDS::BEST_EFFORT_RELIABILITY_QOS;
+    dw_default_qos.history.kind = DDS::KEEP_LAST_HISTORY_QOS;
+    dw_default_qos.history.depth = 1;
+    dw_default_qos.durability.kind = DDS::VOLATILE_DURABILITY_QOS;
+    dw_default_qos.transport_priority.value = 32; // real time interactive
+    dw_default_qos.latency_budget.duration.sec = 0;
+    dw_default_qos.latency_budget.duration.nanosec = 0;
+
     // Create a DataWriter for the Quote topic
     DDS::DataWriter_var quote_base_dw =
       pub->create_datawriter(quote_topic.in (),
