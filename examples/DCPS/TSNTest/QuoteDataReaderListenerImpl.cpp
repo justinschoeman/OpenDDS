@@ -45,16 +45,16 @@ void QuoteDataReaderListenerImpl::on_data_available(DDS::DataReader_ptr reader)
 
       if (status == DDS::RETCODE_OK && si.valid_data) {
         ++count;
-        cout << std::dec 
+        cerr << std::dec 
              << "Quote: target_time     = " << quote.target_time    << endl
              << "         (act_rx_time) = " << act_rx_time << endl
              << "               (delay) = " << (act_rx_time - quote.target_time) << endl
              << "       sched_wake_time = " << quote.sched_wake_time  << endl
              << "       act_wake_time   = " << quote.act_wake_time << endl
              << "          (totaldelay) = " << (act_rx_time - quote.act_wake_time) << endl;
-        cout << "SampleInfo.sample_rank        = " << si.sample_rank << endl;
-        cout << "SampleInfo.instance_handle    = " << hex << si.instance_handle << endl;
-        cout << "SampleInfo.publication_handle = " << hex << si.publication_handle << endl;
+        cerr << "SampleInfo.sample_rank        = " << si.sample_rank << endl;
+        cerr << "SampleInfo.instance_handle    = " << hex << si.instance_handle << endl;
+        cerr << "SampleInfo.publication_handle = " << hex << si.publication_handle << endl;
       } else if (status == DDS::RETCODE_NO_DATA) {
         cerr << "INFO: reading complete after " << count << " samples." << endl;
         break;
